@@ -1,38 +1,93 @@
 {
-    "execute" : "xcalc",
+    "execute" : "freedoom1",
+    "resolution" : "1920x1080",
     "initial timeout" : 1,
     "timeout" : 0,
+    "perform" : [
+        "get to menu",
+        "find enemy"
+    ],
     "tests" : [
         {
-            "do": "make 420",
-            "timeout" : 0,
+            "do": "get to menu",
+            "timeout" : 2,
             "steps": [
-            "click_4.png",
-            "click_2.png",
-            "click_0.png"
+                "press esc",
+                "press enter",
+                "press enter",
+                "press enter"
             ]
         },
         {
-            "do": "substract",
-            "timeout" : 0,
+            "do": "press enter",
+            "timeout" : 1,
             "steps": [
-            "click_-.png"
+                {
+                "method" : "press",
+                "argument": "'enter'",
+                "timeout" : 2
+                }
             ]
         },
         {
-            "do": "make 351",
-            "timeout" : 0,
+            "do": "press esc",
+            "timeout" : 1,
             "steps": [
-            "click_3.png",
-            "click_5.png",
-            "click_1.png"
+                {
+                "method" : "press",
+                "argument": "'esc'",
+                "timeout" : 2
+                }
             ]
         },
         {
-            "do": "calculate",
-            "timeout" : 0,
-            "steps": [
-            "click_=.png"
+            "do" : "find enemy",
+            "timeout" : 1,
+            "steps" : [
+                "go forward",
+                "go right",
+                "go slightly left"
+            ]
+        },
+        {
+            "do" : "go forward",
+            "timeout" : 1,
+            "steps" : [
+                {
+                "method" : "HANDMADE",
+                "argument": "pyautogui.keyDown('w'); time.sleep(2); pyautogui.keyUp('w')",
+                "timeout" : 0
+                }
+            ]
+        },
+        {
+            "do" : "go right",
+            "timeout" : 1,
+            "steps" : [
+                {
+                "method" : "HANDMADE",
+                "argument": "pyautogui.keyDown('d'); time.sleep(1); pyautogui.keyUp('d')",
+                "timeout" : 0
+                }
+            ]
+        },
+        {
+            "do" : "go slightly left",
+            "timeout" : 1,
+            "steps" : [
+                {
+                "method" : "HANDMADE",
+                "argument": "pyautogui.keyDown('a'); time.sleep(0.15); pyautogui.keyUp('a')",
+                "timeout" : 0
+                }
+            ]
+        },
+        {
+            "do" : "read about",
+            "timeout" : 1,
+            "steps" : [
+                "press esc",
+                "read_about.png"
             ]
         }
     ]

@@ -23,14 +23,31 @@ def make_config_context(filename, temp_dir):
     def find_test(test_name):
         return next(filter(lambda t: t['do'] == test_name, config['tests']))
 
+    def HANDMADE(step):
+        exec(step['argument'])
+        time.sleep(step['timeout'])
+
+    def handle_pyauto(step):
+        if step['method'] == 'HANDMADE':
+            HANDMADE(step)
+            return
+        call = getattr(pyautogui, step['method'])
+        call(eval(step['argument']))
+        time.sleep(step['timeout'])
+
     def execute_test(test, timeout):
+        if isinstance(test, str):
+            test = find_test(test)
         time.sleep(timeout)
         time.sleep(test['timeout'])
         for step in test['steps']:
+            make_screenshot()
+            if isinstance(step,dict):
+                handle_pyauto(step)
+                continue
             if not ('.' in step):
                 execute_test(find_test(step), timeout)
                 continue
-            make_screenshot()
             located = pyautogui.locateOnScreen(step)
             center_point = pyautogui.center(located)
             pyautogui.click(center_point.x, center_point.y)
@@ -48,16 +65,17 @@ def make_config_context(filename, temp_dir):
 def main():
     with tempfile.TemporaryDirectory() as temp_dir:
         config, test_executor, subprocess_launcher = make_config_context('test_example.json', temp_dir)
-        subprocess_killer = subprocess_launcher()
-        for test in config['tests']:
-            test_executor(test, config['timeout'])
-        subprocess_killer()
-        animation = []
-        for frame in (os.path.join(temp_dir, f) for f in sorted(os.listdir(temp_dir))):
-            animation.append(imageio.imread(frame))
-        imageio.mimsave(config['execute'] + '.gif', animation, fps=4)
+        width, height = config['resolution'].split('x')
+        with Display(size=(int(width), int(height))) as virt_disp:
+            pyautogui._pyautogui_x11._display = Xdisp.Display(os.environ['DISPLAY'])
+            subprocess_killer = subprocess_launcher()
+            for test in config['perform']:
+                test_executor(test, config['timeout'])
+            subprocess_killer()
+            animation = []
+            for frame in (os.path.join(temp_dir, f) for f in sorted(os.listdir(temp_dir))):
+                animation.append(imageio.imread(frame))
+            imageio.mimsave(config['execute'] + '.gif', animation, fps=4)
 
-with Display(size=(800,600)) as virt_disp:
-    pyautogui._pyautogui_x11._display = Xdisp.Display(os.environ['DISPLAY'])
-    main()
+main()
 
