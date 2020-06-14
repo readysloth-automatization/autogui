@@ -1,0 +1,39 @@
+{
+    "execute" : "xcalc",
+    "initial timeout" : 1,
+    "timeout" : 0,
+    "tests" : [
+        {
+            "do": "make 420",
+            "timeout" : 0,
+            "steps": [
+            "click_4.png",
+            "click_2.png",
+            "click_0.png"
+            ]
+        },
+        {
+            "do": "substract",
+            "timeout" : 0,
+            "steps": [
+            "click_-.png"
+            ]
+        },
+        {
+            "do": "make 351",
+            "timeout" : 0,
+            "steps": [
+            "click_3.png",
+            "click_5.png",
+            "click_1.png"
+            ]
+        },
+        {
+            "do": "calculate",
+            "timeout" : 0,
+            "steps": [
+            "click_=.png"
+            ]
+        }
+    ]
+}
