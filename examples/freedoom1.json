@@ -2,7 +2,7 @@
     "execute" : "freedoom1",
     "resolution" : "1920x1080",
     "initial timeout" : 1,
-    "timeout" : 0,
+    "timeout between tests" : 0,
     "perform" : [
         "get to menu",
         "find enemy"
