@@ -81,14 +81,6 @@
                 "timeout" : 0
                 }
             ]
-        },
-        {
-            "do" : "read about",
-            "timeout" : 1,
-            "steps" : [
-                "press esc",
-                "read_about.png"
-            ]
         }
     ]
 }

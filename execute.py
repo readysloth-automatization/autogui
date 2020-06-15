@@ -30,6 +30,7 @@ CONST = {
     'test_timeout' : 'timeout',
     'tests' : 'tests',
     'timeout_between' : 'timeout between tests',
+    'confidence': 'confidence'
 }
 
 def load(filename):
@@ -70,7 +71,7 @@ def make_config_context(filename, temp_dir):
             if not ('.' in step):
                 execute_test(find_test(step), timeout)
                 continue
-            located = pyautogui.locateOnScreen(step)
+            located = pyautogui.locateOnScreen(step, confidence=config[CONST['confidence']])
             center_point = pyautogui.center(located)
             pyautogui.click(center_point.x, center_point.y)
             make_screenshot()
@@ -88,7 +89,12 @@ def main(configname):
     def body():
         subprocess_killer = subprocess_launcher()
         for test in config[CONST['perform']]:
-            test_executor(test, config[CONST['timeout_between']])
+            try:
+                test_executor(test, config[CONST['timeout_between']])
+            except Exception:
+                print('Тест "{}" не прошел!'.format(test))
+                continue
+            print('Тест "{}" прошел!'.format(test))
         subprocess_killer()
         animation = []
         for frame in (os.path.join(temp_dir, f) for f in sorted(os.listdir(temp_dir))):

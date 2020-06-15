@@ -1,0 +1,41 @@
+{
+    "execute" : "xcalc",
+    "resolution" : "240x320",
+    "initial timeout" : 1,
+    "timeout between tests" : 0,
+    "confidence" : 0.9,
+    "perform" : [
+        "type 420",
+        "type 351",
+        "substract",
+        "а теперь сломаемся"
+    ],
+    "tests" : [
+        {
+            "do": "type 420",
+            "timeout" : 0,
+            "steps": [
+                "examples/xcalc/click_4.png",
+                "examples/xcalc/click_2.png",
+                "examples/xcalc/click_0.png"
+            ]
+        },
+        {
+            "do": "type 351",
+            "timeout" : 0,
+            "steps": [
+                "examples/xcalc/click_3.png",
+                "examples/xcalc/click_5.png",
+                "examples/xcalc/click_1.png"
+            ]
+        },
+        {
+            "do": "substract",
+            "timeout" : 0,
+            "steps": [
+                "examples/xcalc/click_-.png",
+                "examples/xcalc/click_=.png"
+            ]
+        }
+    ]
+}
