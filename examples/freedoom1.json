@@ -3,6 +3,7 @@
     "resolution" : "1920x1080",
     "initial timeout" : 1,
     "timeout between tests" : 0,
+    "confidence" : 0.9,
     "perform" : [
         "get to menu",
         "find enemy"
