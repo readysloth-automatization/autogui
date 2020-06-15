@@ -8,9 +8,6 @@ import subprocess
 import pyautogui
 import imageio
 
-import hunter
-hunter.trace(module='execute', action=hunter.CallPrinter)
-
 LINUX = False
 
 if 'linux' in sys.platform.lower():

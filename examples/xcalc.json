@@ -6,8 +6,9 @@
     "confidence" : 0.9,
     "perform" : [
         "type 420",
-        "type 351",
         "substract",
+        "type 351",
+        "compute",
         "а теперь сломаемся"
     ],
     "tests" : [
@@ -33,7 +34,13 @@
             "do": "substract",
             "timeout" : 0,
             "steps": [
-                "examples/xcalc/click_-.png",
+                "examples/xcalc/click_-.png"
+            ]
+        },
+        {
+            "do": "compute",
+            "timeout" : 0,
+            "steps": [
                 "examples/xcalc/click_=.png"
             ]
         }
