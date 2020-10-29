@@ -5,6 +5,8 @@ import time
 import tempfile
 import subprocess
 
+from pathlib import Path
+
 import pyautogui
 import imageio
 
@@ -38,7 +40,7 @@ def make_config_context(filename, temp_dir):
     config = load(filename)
 
     def make_screenshot():
-        pyautogui.screenshot(os.path.join(temp_dir, str(time.clock()) + '.png'))
+        pyautogui.screenshot(os.path.join(temp_dir, str(time.time()) + '.png'))
 
     def find_test(test_name):
         return next(filter(lambda t: t[CONST['do']] == test_name, config[CONST['tests']]))
@@ -83,7 +85,7 @@ def make_config_context(filename, temp_dir):
     return (config, execute_test, launch_subprocess)
 
 def main(configname):
-    def body():
+    def body(dir_to_save_gif):
         subprocess_killer = subprocess_launcher()
         for test in config[CONST['perform']]:
             try:
@@ -96,17 +98,18 @@ def main(configname):
         animation = []
         for frame in (os.path.join(temp_dir, f) for f in sorted(os.listdir(temp_dir))):
             animation.append(imageio.imread(frame))
-        imageio.mimsave(config[CONST['exec']] + '.gif', animation, fps=4)
+        imageio.mimsave(os.path.join(dir_to_save_gif, Path(configname).stem + '.gif'), animation, fps=4)
 
+    CWD = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
         config, test_executor, subprocess_launcher = make_config_context(configname, temp_dir)
         width, height = config[CONST['res']].split('x')
         if LINUX:
             with Display(size=(int(width), int(height))) as virt_disp:
                 pyautogui._pyautogui_x11._display = Xdisp.Display(os.environ['DISPLAY'])
-                body()
+                body(CWD)
         else:
-            body()
+            body(CWD)
 
 for configname in sys.argv[1:]:
     main(configname)
